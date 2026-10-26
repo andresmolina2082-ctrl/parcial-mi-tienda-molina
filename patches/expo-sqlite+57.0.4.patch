@@ -1,0 +1,22 @@
+diff --git a/node_modules/expo-sqlite/web/WorkerChannel.ts b/node_modules/expo-sqlite/web/WorkerChannel.ts
+index 7fba380..f24fa1e 100644
+--- a/node_modules/expo-sqlite/web/WorkerChannel.ts
++++ b/node_modules/expo-sqlite/web/WorkerChannel.ts
+@@ -38,9 +38,15 @@ export function sendWorkerResult({
+     const lock = new Int32Array(lockBuffer);
+     const resultArray = new Uint8Array(resultBuffer);
+     const resultJson = error != null ? serialize({ error }) : serialize({ result });
+-    const resultBytes = new TextEncoder().encode(resultJson);
++    let resultBytes = new TextEncoder().encode(resultJson);
++    if (resultBytes.length + 4 > resultBuffer.byteLength) {
++      resultBytes = new TextEncoder().encode(
++        serialize({ error: `El resultado (${resultBytes.length} bytes) supera el límite de 1 MB de las operaciones síncronas` })
++      );
++    }
+     const length = resultBytes.length;
+-    resultArray.set(new Uint32Array([length]), 0);
++    // Uint8Array.set con un Uint32Array solo copia el byte bajo: el largo debe escribirse como uint32
++    new DataView(resultBuffer).setUint32(0, length, true);
+     resultArray.set(resultBytes, 4);
+     Atomics.store(lock, 0, RESOLVED);
+   } else {
