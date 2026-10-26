@@ -17,6 +17,7 @@ const AuthContext = createContext<AuthValue | null>(null);
 function translate(message: string) {
   if (/invalid login credentials/i.test(message)) return 'Correo o contraseña incorrectos.';
   if (/already registered/i.test(message)) return 'Ese correo ya está registrado.';
+  if (/email not confirmed/i.test(message)) return 'El correo de esta cuenta no está confirmado.';
   if (/network request failed|fetch/i.test(message)) return 'Sin conexión a internet. Intenta de nuevo.';
   if (/email.*invalid|invalid.*email/i.test(message)) return 'El correo no es válido.';
   return message;
