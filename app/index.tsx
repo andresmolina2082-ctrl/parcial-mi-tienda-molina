@@ -6,6 +6,7 @@ import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@/context/AuthContext';
 import { isPending, useProducts } from '@/hooks/useProducts';
+import { useSync } from '@/hooks/useSync';
 import type { Product } from '@/db/schema';
 import { Button, colors, formatPesos } from '@/components/ui';
 
@@ -49,6 +50,7 @@ export default function HomeScreen() {
   const { session, signOut } = useAuth();
   const [search, setSearch] = useState('');
   const { products, totals, remove } = useProducts(search);
+  const { sync, syncing, message } = useSync();
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -69,6 +71,16 @@ export default function HomeScreen() {
         <Stat label="Valor total" value={formatPesos(totals.value)} />
         <Stat label="Pendientes" value={String(totals.pending)} highlight={totals.pending > 0} />
       </View>
+
+      <Button title={syncing ? 'Sincronizando…' : '⟳ Sincronizar'} onPress={sync} loading={syncing} />
+      {message ? (
+        <View style={[styles.message, { backgroundColor: message.type === 'ok' ? colors.syncedBg : colors.dangerBg }]}>
+          <Text style={{ color: message.type === 'ok' ? colors.synced : colors.danger, fontWeight: '600' }}>
+            {message.type === 'ok' ? '✓ ' : '⚠ '}
+            {message.text}
+          </Text>
+        </View>
+      ) : null}
 
       <TextInput
         style={styles.search}
@@ -119,7 +131,9 @@ const styles = StyleSheet.create({
   stat: { flex: 1, backgroundColor: colors.card, borderRadius: 10, padding: 10, alignItems: 'center' },
   statValue: { fontSize: 17, fontWeight: '800', color: colors.text },
   statLabel: { color: colors.muted, fontSize: 12, marginTop: 2 },
+  message: { borderRadius: 8, padding: 10, marginTop: 8 },
   search: {
+    marginTop: 12,
     backgroundColor: colors.card,
     borderWidth: 1,
     borderColor: colors.border,
