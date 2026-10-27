@@ -3,7 +3,7 @@
 App de inventario para una tienda de barrio. Funciona sin internet (SQLite es la fuente de verdad) y respalda los productos en Supabase al tocar **Sincronizar**.
 
 - **Estudiante:** Andrés Molina
-- **Código:** _PENDIENTE: escribir el código estudiantil_
+- **Código:** 0182120038
 
 **Tecnología:** Expo SDK 57 · TypeScript · Expo Router · SQLite con Drizzle ORM · Supabase (Auth + Postgres con RLS)
 
