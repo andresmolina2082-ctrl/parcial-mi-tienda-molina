@@ -105,4 +105,4 @@ La pantalla muestra el resultado ("2 subidos, 1 bajado") o el error si no hay co
 
 ## Qué faltó
 
-_PENDIENTE: completar después de probar en el teléfono (o escribir "Nada")._
+Nada de lo pedido quedó sin hacer. Las capturas se tomaron en la versión web de la app (`npx expo start` → `w`) con la vista de teléfono del navegador; el modo sin conexión se simuló con DevTools → Network → **Offline**. La captura 06 muestra la sincronización automática que se disparó al volver la conexión ("3 subidos, 0 bajados"), y la 07 confirma que no se duplicaron filas (4 productos, 4 registros).

@@ -27,4 +27,5 @@ La IA reutilizó mis archivos de la Semana 8/9 (proyecto `geocam`): `lib/secureS
 - `npx tsc --noEmit` sin errores.
 - `npx expo install --check`: dependencias compatibles con el SDK 57.
 - `npx expo export --platform android` compila el bundle.
-- Pruebas en el teléfono: _PENDIENTE_.
+- Prueba manual en la versión web: registro con validación, login, CRUD, producto creado en Offline (DevTools) marcado como pendiente, sincronización automática al volver la conexión ("3 subidos, 0 bajados") y 4 filas sin duplicados en Supabase (ver `capturas/`).
+- Al probar apareció el aviso de "falta confirmar el correo": la opción **Confirm email** de Supabase seguía activa. Se agregó la traducción del error "Email not confirmed".
